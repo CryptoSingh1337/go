@@ -1,4 +1,4 @@
-# Go
+# Learning Golang
 
 ### Go runtime
 Go runtime consists of several key components, including the scheduler, garbage collector, memory allocator, and stack management.
