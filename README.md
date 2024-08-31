@@ -1,6 +1,6 @@
 # Learning Golang
 
-### Go runtime
+### Chapter 1: Go runtime
 Go runtime consists of several key components, including the scheduler, garbage collector, memory allocator, and stack management.
 It is attached with every executable binary.
 
@@ -15,7 +15,7 @@ go run <file-name>
 - Main file which contains main function must include `package main` at the top.
 - This file should contain a main function like `func main() {}`.
 
-### Basic
+### Chapter 2: Basic
 
 **Data types**
 
@@ -120,7 +120,7 @@ if v := math.Pow(x, n); v < lim {
 Note: v is only available in the `if` statement scope.
 ```
 
-### Functions
+### Chapter 3: Functions
 
 **Function declaration**
 
@@ -199,3 +199,107 @@ func getCoord() (int, int) {
 }
 ```
 
+### Chapter 4: Structs
+Structs are used to group data together to represent an entity.
+
+**Syntax:**
+```go
+type <struct-name> struct {
+    <field-name> <type>
+    <field-name> <type>
+}
+```
+
+**Example:**
+```go
+type Vertex struct {
+    X int
+    Y int
+}
+```
+
+**Nested structs**
+- Structs can be nested inside other structs.
+- Nested structs are useful when we want to group related data together.
+- Nested structs can be accessed using the `.` operator.
+- Nested structs can be used to represent complex data structures.
+
+```go
+type Circle struct {
+    Center Vertex
+    Radius float64
+}
+```
+
+**Anonymous structs**
+- It is used when we don't have reason to create a named struct or when we want to create a struct that is only used once.
+- It prevents us from re-using a struct which is never intended to be used again. For example, in HttpHandler to define json response structure.
+
+```go
+vertex := struct {
+    X int
+    Y int
+} {
+    -1,
+    0
+}
+```
+This one is not that much common.
+
+Generally, anonymous structs are used within named structs.
+
+```go
+type Circle struct {
+    Center struct {
+        X int
+        Y int
+    }
+    Radius float64
+}
+```
+
+**Embedded structs**
+- It is used to compose a struct with another struct.
+- It is used to reuse fields of the embedded struct.
+- We can access the fields of the embedded struct same as it belong to top-level struct.
+- Initialization of embedded struct is same as nested struct.
+
+```go
+type Circle struct {
+    Vertex
+    Radius int
+}
+```
+> We can access `X` and `Y` fields of `Vertex` struct using `Circle` struct, `Circle.X` and `Circle.Y`.
+
+Initialization of embedded struct:
+```go
+circle := Circle{
+    Vertex: Vertex{1, 2},
+    Radius: 5,
+}
+
+fmt.Println(circle.X, circle.Y, circle.Radius)
+```
+
+**Methods in structs**
+- Methods are functions that are associated with a particular type.
+- These are defined using a special receiver argument.
+- Receiver can be a value or a pointer.
+
+**Syntax:**
+```go
+func (<receiver> <type>) <method-name>(<parameters>) <return-type> {
+    // code
+}
+```
+
+**Example:**
+```go
+func (c Circle) area() float64 {
+    return math.Pi * c.Radius * c.Radius
+}
+
+circle := Circle{Vertex{0, 0}, 5}
+fmt.Println(circle.area())
+```
