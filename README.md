@@ -121,3 +121,81 @@ Note: v is only available in the `if` statement scope.
 ```
 
 ### Functions
+
+**Function declaration**
+
+**Syntax:**
+func <function-name>(<parameter> <type>) <return-type> {
+    // code
+}
+
+// short hand
+func <function-name>(<parameter-1>, <parameter-2> <type>) <return-type> {
+    // code
+}
+
+```go
+func add(x int, y int) int {
+    return x + y
+}
+
+func add(x, y int) int {
+    return x + y
+}
+```
+
+Go supports functions in function arguments.
+
+```go
+func compute(fn func(float64, float64) float64) float64 {
+    return fn(3, 4)
+}
+```
+
+**Multiple return values**
+
+```go
+func swap(x, y string) (string, string) {
+    return y, x
+}
+
+func swap(x int, y int) int {
+	return y, x
+}
+```
+
+**Ignoring return values**
+
+```go
+// Ignoring the first return value
+_, b := swap("hello", "world")
+```
+
+**Named return values**
+- It is generally used to document the purpose of the return values.
+- It is not recommended to use naked return as it can harm readability.
+- Naked return should be used only in short functions.
+- Named return values are initialized to default values and it is recommended to use them with functions having multiple return values.
+
+```go
+func split(sum int) (x, y int) {
+    x = sum * 4 / 9
+    y = sum - x
+    return
+}
+```
+
+Example:
+```go
+func getCoord() (x, y int) {
+	return // x, y are first initialized to 0 and then returned
+}
+
+// This is equivalent to
+func getCoord() (int, int) {
+    var x int
+    var y int
+    return x, y
+}
+```
+
