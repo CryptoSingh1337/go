@@ -303,3 +303,107 @@ func (c Circle) area() float64 {
 circle := Circle{Vertex{0, 0}, 5}
 fmt.Println(circle.area())
 ```
+
+### Chapter 5: Interfaces
+- Interfaces are used to define a set of methods that a type must have.
+- Interfaces are implemented implicitly.
+- A type implements an interface if it provides definitions for all the methods in the interface.
+- Interface should be concise and only contain the methods that are required.
+
+**Syntax:**
+```go
+type <interface-name> interface {
+    <method-name>(<parameters>) <return-type>
+}
+```
+
+**Example:**
+```go
+type Shape interface {
+    area() float64
+}
+
+type Circle struct {
+    Radius float64
+}
+
+// Circle implements the Shape interface
+func (c Circle) area() float64 {
+    return math.Pi * c.Radius * c.Radius
+}
+```
+
+**Empty interface**
+- An empty interface is an interface that has zero methods.
+- It is represented by `interface{}`.
+- It is by default implemented by all types.
+
+**Named interface**
+- Named interfaces are used to provide meaningful names to interface's arguments.
+- It is used to make the code more readable and maintainable.
+- It is not necessary to create a named interface, but it is recommended to do so. Without a named interface, code works the same way.
+
+**Example:**
+```go
+type Copier interface {
+	Copy(sourceFile string, destinationFile string) (bytesCopied int, error)
+}
+``` 
+
+**Type assertion**
+- Type assertion is used to extract the underlying value of the interface.
+- It is used to check the type of an interface value.
+- It is used to convert an interface value to another type.
+
+**Syntax:**
+```go
+value, ok := <interface-value>.(<type>)
+```
+> If the type assertion is successful, `ok` will be true and `value` will contain the underlying value of the interface.
+
+**Example:**
+```go
+type Shape interface {
+    area() float64
+}
+
+type Circle struct {
+    Radius float64
+}
+
+c, ok := s.(Circle) // s is of type Shape and c is of type Circle if the assertion is successful
+```
+
+**Type switch**
+- Type switch is used to check the type of an interface value.
+- It is used to perform different actions based on the type of the interface value.
+- It is similar to a regular switch statement, but the cases in a type switch specify types not values.
+- We can also use if condition to check the type of an interface value.
+
+**Syntax:**
+```go
+switch v := <interface-value>.(type) {
+    case <type-1>:
+        // code
+    case <type-2>:
+        // code
+    default:
+        // code
+}
+```
+
+**Example:**
+```go
+func describe(s Shape) {
+    switch v := s.(type) {
+    case Circle:
+        fmt.Println("Circle")
+    case Rectangle:
+        fmt.Println("Rectangle")
+    default:
+        fmt.Println("Unknown shape")
+    }
+}
+```
+
+### Chapter 6: Error handling
