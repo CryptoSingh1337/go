@@ -17,7 +17,7 @@ go run <file-name>
 
 ### Chapter 2: Basic
 
-**Data types**
+#### **Data types**
 
 | Type                                               | Default value |
 |----------------------------------------------------|---------------|
@@ -32,7 +32,7 @@ go run <file-name>
 
 **Note:** `rune` is equivalent to char
 
-**Declaring a variable**
+#### **Declaring a variable**
 
 ```go
 var number int
@@ -92,7 +92,7 @@ const x = a * b
 const y = x * p // This will give an error
 ```
 
-**If statement**
+#### **If statement**
 
 ```go
 if x > 0 && x < 10 {
@@ -119,6 +119,68 @@ if v := math.Pow(x, n); v < lim {
 }
 Note: v is only available in the `if` statement scope.
 ```
+
+#### **Switch statement**
+Similar to switch case
+
+**Syntax:**
+```go
+switch statement; expression {
+case expressionOne:
+	statement...
+case expressionTwo:
+	statement...
+default:
+    statement...
+}
+```
+
+**Example:**
+```go
+switch os := runtime.GOOS; os {
+case "darwin":
+	fmt.Println("OS X")
+case "linux":
+	fmt.Println("Linux")
+default:
+	fmt.Println("%s", os)
+}
+```
+
+**Type switch**
+- Type switch is used to check the type of an interface value.
+- It is used to perform different actions based on the type of the interface value.
+- It is similar to a regular switch statement, but the cases in a type switch specify types not values.
+- We can also use if condition to check the type of an interface value.
+
+**Syntax:**
+```go
+switch v := <interface-value>.(type) {
+    case <type-1>:
+        // code
+    case <type-2>:
+        // code
+    default:
+        // code
+}
+```
+
+**Example:**
+```go
+func describe(s Shape) {
+    switch v := s.(type) {
+    case Circle:
+        fmt.Println("Circle")
+    case Rectangle:
+        fmt.Println("Rectangle")
+    default:
+        fmt.Println("Unknown shape")
+    }
+}
+```
+
+#### **Loops**
+
 
 ### Chapter 3: Functions
 
@@ -374,36 +436,62 @@ type Circle struct {
 c, ok := s.(Circle) // s is of type Shape and c is of type Circle if the assertion is successful
 ```
 
-**Type switch**
-- Type switch is used to check the type of an interface value.
-- It is used to perform different actions based on the type of the interface value.
-- It is similar to a regular switch statement, but the cases in a type switch specify types not values.
-- We can also use if condition to check the type of an interface value.
+### Chapter 6: Error handling
+- Error is an interface which contains only a single method called `Error()`.
+- Error method returns a string which explains the reason.
+- If a method returns an error, we should handle that immediately.
+- Error message string should not be capitalize and should not ends with punctuation mark
 
-**Syntax:**
+**Error interface**
 ```go
-switch v := <interface-value>.(type) {
-    case <type-1>:
-        // code
-    case <type-2>:
-        // code
-    default:
-        // code
+type error interface {
+	Error() string
 }
 ```
 
 **Example:**
 ```go
-func describe(s Shape) {
-    switch v := s.(type) {
-    case Circle:
-        fmt.Println("Circle")
-    case Rectangle:
-        fmt.Println("Rectangle")
-    default:
-        fmt.Println("Unknown shape")
-    }
+x, y := 5, 0
+r, err := divide(x, y)
+if err != nil {
+	fmt.Println("Error while dividing %v by %v", x, y)
+	return
 }
 ```
 
-### Chapter 6: Error handling
+**Formatting strings**
+`fmt.Sprintf()` is used to form a string with different format specifiers or "formatting verbs".
+
+Different formatting verbs:
+- %v	the value in a default format
+- %t	the word true or false
+- %c	the character represented by the corresponding Unicode code point
+- %d	integer in base 10 form
+- %f	decimal point but no exponent, e.g. 123.456
+- %F    synonym for %f
+- %s	the uninterpreted bytes of the string or slice
+- %q	a double-quoted string safely escaped with Go syntax
+- %T	a Go-syntax representation of the type of the value
+- %p	pointer address in base 16 notation, with leading 0x
+
+**Custom errors**
+We can define our own errors by implementing error interface.
+
+**Example:**
+```go
+type UserError struct {
+	name string
+}
+
+func (e UserError) Error() string {
+	return fmt.Sprintf("%v has a problem with their account", e.name)
+}
+```
+
+**Errors package**
+Go std library provides an errors package that provides utilities related to error.
+
+**Example:**
+```go
+var err error = errors.New("something went wrong")
+```
