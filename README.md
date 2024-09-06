@@ -180,7 +180,93 @@ func describe(s Shape) {
 ```
 
 #### **Loops**
+`for` keyword is use to define loops in golang.
 
+**Syntax:**
+```go
+for init; condition; post {
+statements
+}
+```
+
+**Example:**
+```go
+for i := 10; i > 0; i-- {
+  fmt.Println(i) // Counts down from 10 to 1
+}
+```
+
+**While loop**
+For while loop, we just need to omit `init` and `post` statements.
+
+**Syntax:**
+```go
+for condition {
+	// body
+}
+```
+
+**Infinite loop**
+For infinite loop, we just need to omit all the statements.
+
+**Syntax:**
+```go
+for {
+	// body
+}
+```
+
+**Range loop**
+By using the `range` keyword, a `for` loop can step through the items in a collection such as a array, map, slice, channel, or string.
+
+**Syntax:**
+```go
+for index, value = range collection {
+	// body
+}
+```
+
+**Example:**
+
+```go
+numbers := []string{"One","Two","Three"}
+for i, n := range numbers {
+  fmt.Println(i,n)
+}
+```
+
+**Break and continue**
+The `break` and `continue` statements work in Go as they do in C and Java.
+
+**Example:**
+```go
+for i := 0; i < 100; i++ {
+    if i % 2 == 0 {
+      continue
+    }
+    if i == 50 {
+      break
+    }
+    fmt.Println(i)
+}
+```
+
+**Logical operators**
+Same as any other language
+
+- *AND* - &&
+- *OR* - ||
+- *NOT* - !
+
+**Bitwise operators**
+Same as any other language
+
+- *AND* - &
+- *OR* - |
+- *XOR* - ^
+- *AND NOT* - &^
+- *Left shift* - <<
+- *Right shift* - >>
 
 ### Chapter 3: Functions
 
