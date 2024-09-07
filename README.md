@@ -17,6 +17,44 @@ go run <file-name>
 
 ### Chapter 2: Basic
 
+#### **Packages**
+In golang, packages are used to categorize our program into logical units so that it is easy to maintain.
+Every go-file belongs to some package i.e., why we write `package <package-name>` at the top. Each go application
+must have `main` package so that it can compile.
+
+> Note: If a package is changed and recompiled, all the client programs that use this package must be recompiled too!
+
+#### **Import**
+A Go program is linked to different packages through the import keyword.
+
+**Syntax:**
+```go
+import "<package-name>"
+```
+
+**Example:**
+```go
+import "fmt"
+import "os"
+
+// or
+import "fmt"; import "os"
+
+// or
+import (
+	"fmt"
+	"os"
+)
+
+// or
+import ("fmt"; "os")
+```
+
+#### **Visibility**
+- An identifier can be variable, constant, function, type or struct field. We can declare identifier in lowercase or uppercase letters. 
+- If we declare identifier in lowercase letter, it will be visible within the package only. But if we declare package in uppercase letter, it will be visible within and outside the package which is also known as exported. 
+- The dot `.` Operator is used to access the identifier e.g. pack.Age where pack is the package name and Age is the identifier.
+
 #### **Data types**
 
 | Type                                               | Default value |
@@ -52,11 +90,16 @@ number := 10 // var number int = 10
 ```
 
 **Type conversion**
+Functions for primitive data types like int, float, etc. are provided in `builtin.go`, we can use this directly in any go file.
+To convert string to any type, we must use `strconv` package.
 
 ```go
 i := 42
 f := float64(i)
 u = uint(f)
+
+str := "10"
+parsedInt, _ := strconv.ParseInt(str)
 ```
 
 Type of variable can be printed using `%T`.
@@ -121,7 +164,8 @@ Note: v is only available in the `if` statement scope.
 ```
 
 #### **Switch statement**
-Similar to switch case
+Similar to switch case but `break` is implicit. So automatic fall-through is not default.
+We can use `fallthrough` keyword to execute all the cases which are below the matching one.
 
 **Syntax:**
 ```go
@@ -213,6 +257,11 @@ For infinite loop, we just need to omit all the statements.
 ```go
 for {
 	// body
+}
+
+// or
+for true {
+	
 }
 ```
 
@@ -345,6 +394,19 @@ func getCoord() (int, int) {
     var y int
     return x, y
 }
+```
+
+#### Closures:
+Closure is a function without any name i.e., anonymous function.
+
+```go
+number := 10  
+  squareNum := func() (int) {
+  number *= number
+  return number
+}
+x := squareNum()  
+y := squareNum() 
 ```
 
 ### Chapter 4: Structs
@@ -580,4 +642,124 @@ Go std library provides an errors package that provides utilities related to err
 **Example:**
 ```go
 var err error = errors.New("something went wrong")
+```
+
+### Chapter 7: Arrays
+In Go, an array is a homogeneous data structure (Fix type) and has a fixed-length. The type can be anything like integers, string or self-defined type.
+It is similar to arrays in other languages.
+
+**Syntax:**
+```go
+var identifier [len]type
+```
+
+**Example:**
+```go
+var x [5]int
+for i := 0; i < len(x); i++ {
+	x[i] = i
+}
+```
+
+**Multi-dimension arrays**
+It is possible to create multi-dimensional array
+
+**Syntax:**
+```go
+var arrayName [x][y]variable_type
+```
+
+**Example:**
+```go
+var array [5][6]int
+```
+
+#### **Slices**
+- Slice is a dynamically-sized, segmented view of an underlying array.
+- This segment can be the entire array or a subset of an array.
+- We define the subset of an array by indicating the start and end index. 
+- Slices provide a dynamic window onto the underlying array.
+- Slice is like reference to an array. Slice does not store any data. 
+- If we change the elements of an array, it will also modify the underlying array. 
+- If other slice is referencing the same underlying array, their value will also be changed.
+
+**Syntax:**
+```go
+var <name> []<T> = <array>[<lower-bound>:<upper-bound] // upper bound is always exclusive
+
+// or
+<name> := <array>[<lower-bound>:<upper-bound]
+
+// or
+<name> := make([]<T>, 10)       // slice of length 10, capacity of 10 and all elements initialized to 0
+
+// or
+<name> := make([]<T>, 0, 10)    // slice of length 0 and capacity of 10
+```
+
+**Slice literals:**
+Slice literal is like an array literal without any length.
+
+```go
+s := []struct {
+      i int
+      b bool
+   }{
+      {1, true},
+      {2, false},
+      {3,true},
+      {4, true},
+      {5, false},
+      {6, true},
+   }
+   fmt.Println(s)
+```
+
+**Omit Lower or Upper Bonds:**
+In slice, we can omit the lower bond or the upper bonds. Zero is the default value of the lower or the upper bond.
+
+```go
+slice := []int{1, 2, 3, 4, 5}
+x := slice[:3]  // slice[0:3]
+y := slice[1:]  // slice[1:5]
+```
+
+**Length and capacity:**
+A slice has length and capacity. The length is the number of stored elements and the capacity is the number of elements
+of the underlying array counting from the beginning of the slice.
+
+To get the length, we use `len(slice)` function and to get the capacity, we use `cap(slice)` function.
+
+#### Command-line arguments
+- The arguments passed from the console can be received by the Go program and it can be used as an input.
+- The os.Args is used to get the arguments. The index `0` of os.Args contains the path of the program.
+- The os.Args[1:] holds provided arguments.
+
+```go
+var s, arg string  
+for i := 1; i < len(os.Args); i++ {
+    s += arg + os.Args[i]+" "
+}
+fmt.Println(s)
+```
+
+#### Variadic functions
+Functions which can take multiple arguments of same type but its size is not pre-determined.
+This is similar to var-args in Java.
+
+```go
+func sum(nums ...int) int { // argument type is nothing but slice of int
+	total := 0
+	for _, num := range nums {
+        total += num
+    }
+	return total
+}
+```
+
+**Spread operator**
+When we want to pass slice to a variadic function, we can use `<slice>...`
+```go
+slice := []int{1, 2, 3, 4, 5}
+total := sum(slice...)
 ```

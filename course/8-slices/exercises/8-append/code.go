@@ -8,7 +8,14 @@ type cost struct {
 }
 
 func getCostsByDay(costs []cost) []float64 {
-	// ?
+	costByDay := make([]float64, 0)
+	for _, c := range costs {
+		for c.day >= len(costByDay) {
+			costByDay = append(costByDay, 0)
+		}
+		costByDay[c.day] += c.value
+	}
+	return costByDay
 }
 
 // dont edit below this line
