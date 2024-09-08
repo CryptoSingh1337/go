@@ -1,5 +1,8 @@
 # Learning Golang
 
+### Resources:
+- [https://go.dev/doc/effective_go](https://go.dev/doc/effective_go)
+
 ### Chapter 1: Go runtime
 Go runtime consists of several key components, including the scheduler, garbage collector, memory allocator, and stack management.
 It is attached with every executable binary.
@@ -763,3 +766,27 @@ When we want to pass slice to a variadic function, we can use `<slice>...`
 slice := []int{1, 2, 3, 4, 5}
 total := sum(slice...)
 ```
+
+### Chapter - 8: Maps
+- Similar to any other language, used to store key-value pairs.
+- map keys can be any type that is comparable.
+- boolean, numeric, string, pointer, channel, interface types and structs or arrays that contains only those types can be the key
+- slices, map, functions cannot be the key.
+
+
+**Syntax:**
+```go
+m := make(map[<type-1>]<type-2>)
+
+// or
+m := map[<type-1>]<type-2>{
+	"A": 1,
+	"B": 2
+}
+```
+
+**Operations**
+- Insert: `m[key] = value`
+- Get: `element = m[key]`
+- Delete: `delete(m, key)`
+- Check if element exists: `element, ok := m[key]`
