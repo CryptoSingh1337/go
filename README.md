@@ -399,9 +399,75 @@ func getCoord() (int, int) {
 }
 ```
 
-#### Closures:
-Closure is a function without any name i.e., anonymous function.
+#### Higher order functions:
+Go supports first class functions as functions can take another function(s) as an argument or returns another function, 
+these type of functions are called higher order functions.
 
+First class function is a function that can be treated like any other value.
+Higher order function is a function that takes a function as an argument.
+This is somewhat similar to callbacks in javascript.
+
+**Example:**
+```go
+// higher order function
+func aggregate(a, b, c int, arithmetic func (int, int) int) int { // arithmetic is a first class function
+	return arithmetic(arithmetic(a, b), c)
+}
+```
+
+#### Currying
+Function currying is a practice of writing a function which takes function as an argument and return a new function.
+Use case - Middlewares
+
+**Example:**
+```go
+func selfMath(mathFunc func (int, int) int) func (int) (int) {
+	return func (x int) int {
+	    return mathFunc(x, x)	
+    }
+}
+```
+
+#### `defer` keyword
+`defer` allows a function to be executed automatically just before its enclosing function returns.
+Somewhat similar to `finally` block in java.
+
+**Example:**
+```go
+func deleteUsers(users map[string]user, key string) {
+    defer delete(users, name)
+    user, ok := users[name]
+    if !ok {
+        return logNotFound
+    }
+    if user.admin {
+        return logAdmin
+    }
+	return logDeleted
+}
+```
+
+#### Closures:
+Closure is a function that references variables from outside its own function body. The function may access and assign
+to the referenced variables.
+
+**Example:**
+```go
+func concatter() func (string) string {
+	doc := ""
+	return func (word string) string {
+		doc += word + " "
+		return doc
+    }
+}
+```
+> Note: In above function we are using doc variable, which belongs to concatter function, this might lead to memory leaks,
+> so using closures can be expensive.
+
+#### Anonymous functions
+Functions with no name. It is useful when defining a function that will only be used once or to create quick closure.
+
+**Example:**
 ```go
 number := 10  
   squareNum := func() (int) {
