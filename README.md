@@ -496,7 +496,7 @@ type Vertex struct {
 }
 ```
 
-**Nested structs**
+#### Nested structs
 - Structs can be nested inside other structs.
 - Nested structs are useful when we want to group related data together.
 - Nested structs can be accessed using the `.` operator.
@@ -509,7 +509,7 @@ type Circle struct {
 }
 ```
 
-**Anonymous structs**
+#### Anonymous structs
 - It is used when we don't have reason to create a named struct or when we want to create a struct that is only used once.
 - It prevents us from re-using a struct which is never intended to be used again. For example, in HttpHandler to define json response structure.
 
@@ -536,7 +536,7 @@ type Circle struct {
 }
 ```
 
-**Embedded structs**
+#### Embedded structs
 - It is used to compose a struct with another struct.
 - It is used to reuse fields of the embedded struct.
 - We can access the fields of the embedded struct same as it belong to top-level struct.
@@ -550,7 +550,7 @@ type Circle struct {
 ```
 > We can access `X` and `Y` fields of `Vertex` struct using `Circle` struct, `Circle.X` and `Circle.Y`.
 
-Initialization of embedded struct:
+**Initialization of embedded struct:**
 ```go
 circle := Circle{
     Vertex: Vertex{1, 2},
@@ -560,7 +560,7 @@ circle := Circle{
 fmt.Println(circle.X, circle.Y, circle.Radius)
 ```
 
-**Methods in structs**
+#### Methods in structs
 - Methods are functions that are associated with a particular type.
 - These are defined using a special receiver argument.
 - Receiver can be a value or a pointer.
@@ -611,12 +611,12 @@ func (c Circle) area() float64 {
 }
 ```
 
-**Empty interface**
+#### Empty interface
 - An empty interface is an interface that has zero methods.
 - It is represented by `interface{}`.
 - It is by default implemented by all types.
 
-**Named interface**
+#### Named interface
 - Named interfaces are used to provide meaningful names to interface's arguments.
 - It is used to make the code more readable and maintainable.
 - It is not necessary to create a named interface, but it is recommended to do so. Without a named interface, code works the same way.
@@ -628,7 +628,7 @@ type Copier interface {
 }
 ``` 
 
-**Type assertion**
+#### Type assertion
 - Type assertion is used to extract the underlying value of the interface.
 - It is used to check the type of an interface value.
 - It is used to convert an interface value to another type.
@@ -658,7 +658,7 @@ c, ok := s.(Circle) // s is of type Shape and c is of type Circle if the asserti
 - If a method returns an error, we should handle that immediately.
 - Error message string should not be capitalize and should not ends with punctuation mark
 
-**Error interface**
+#### Error interface
 ```go
 type error interface {
 	Error() string
@@ -675,7 +675,7 @@ if err != nil {
 }
 ```
 
-**Formatting strings**
+#### Formatting strings
 `fmt.Sprintf()` is used to form a string with different format specifiers or "formatting verbs".
 
 Different formatting verbs:
@@ -690,7 +690,7 @@ Different formatting verbs:
 - %T	a Go-syntax representation of the type of the value
 - %p	pointer address in base 16 notation, with leading 0x
 
-**Custom errors**
+#### Custom errors
 We can define our own errors by implementing error interface.
 
 **Example:**
@@ -704,7 +704,7 @@ func (e UserError) Error() string {
 }
 ```
 
-**Errors package**
+#### `errors` package
 Go std library provides an errors package that provides utilities related to error.
 
 **Example:**
@@ -729,7 +729,7 @@ for i := 0; i < len(x); i++ {
 }
 ```
 
-**Multi-dimension arrays**
+#### Multi-dimension arrays
 It is possible to create multi-dimensional array
 
 **Syntax:**
@@ -742,7 +742,7 @@ var arrayName [x][y]variable_type
 var array [5][6]int
 ```
 
-#### **Slices**
+#### Slices
 - Slice is a dynamically-sized, segmented view of an underlying array.
 - This segment can be the entire array or a subset of an array.
 - We define the subset of an array by indicating the start and end index. 
