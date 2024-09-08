@@ -157,14 +157,12 @@ If statement can start with a short statement to execute before the condition.
 if <statement>; <condition> {
     // code
 }
-```
 
-```go
 if v := math.Pow(x, n); v < lim {
     return v
 }
-Note: v is only available in the `if` statement scope.
 ```
+> Note: v is only available in the `if` statement scope.
 
 #### **Switch statement**
 Similar to switch case but `break` is implicit. So automatic fall-through is not default.
@@ -325,6 +323,7 @@ Same as any other language
 **Function declaration**
 
 **Syntax:**
+```go
 func <function-name>(<parameter> <type>) <return-type> {
     // code
 }
@@ -333,6 +332,7 @@ func <function-name>(<parameter> <type>) <return-type> {
 func <function-name>(<parameter-1>, <parameter-2> <type>) <return-type> {
     // code
 }
+```
 
 ```go
 func add(x int, y int) int {
@@ -345,7 +345,6 @@ func add(x, y int) int {
 ```
 
 Go supports functions in function arguments.
-
 ```go
 func compute(fn func(float64, float64) float64) float64 {
     return fn(3, 4)
@@ -385,7 +384,7 @@ func split(sum int) (x, y int) {
 }
 ```
 
-Example:
+**Example:**
 ```go
 func getCoord() (x, y int) {
 	return // x, y are first initialized to 0 and then returned
@@ -771,17 +770,17 @@ Slice literal is like an array literal without any length.
 
 ```go
 s := []struct {
-      i int
-      b bool
-   }{
-      {1, true},
-      {2, false},
-      {3,true},
-      {4, true},
-      {5, false},
-      {6, true},
-   }
-   fmt.Println(s)
+  i int
+  b bool
+}{
+  {1, true},
+  {2, false},
+  {3,true},
+  {4, true},
+  {5, false},
+  {6, true},
+}
+fmt.Println(s)
 ```
 
 **Omit Lower or Upper Bonds:**
