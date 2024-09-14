@@ -1,4 +1,4 @@
-package mailio
+package main
 
 import (
 	"fmt"

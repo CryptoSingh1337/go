@@ -10,8 +10,8 @@ type Message struct {
 // Don't touch above this line
 
 func sendMessage(m Message) {
-	fmt.Printf("To: %v\n", &m.Recipient)
-	fmt.Printf("Message: %v\n", &m.Text)
+	fmt.Printf("To: %v\n", m.Recipient)
+	fmt.Printf("Message: %v\n", m.Text)
 }
 
 // Don't touch below this line

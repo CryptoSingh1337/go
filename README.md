@@ -11,23 +11,59 @@ Unlike Java, go does not uses any type of virtual machine so go runtime handles 
 
 **Run command**
 ```bash
-go run <file-name>
+go run <file-name or package-name> 
 ```
+Preferred when want to run a single file
+
+**Build executable**
+```go
+go build
+```
+
+```go
+go install
+```
+This set the path of the binary in the path. So we can run the executable globally.
 
 **Go file syntax**
 - Main file which contains main function must include `package main` at the top.
 - This file should contain a main function like `func main() {}`.
 
+**Initialization command**
+```bash
+go mod init <REMOTE>/<USERNAME>/<PROJECT-NAME>
+```
+
+**What is the use of `go.mod` file**
+It is similar to `package.json` file, it contains dependencies, package name and go version.
+
+> Go mono-repo can contain multiple go modules, and root of the project generally contains `go.mod` file.
+
+**What is the use of `go.sum` file**
+It contains transitive dependencies which are being used by third-party modules.
+
+**Import local module in other module**
+Not recommended in production `go.mod` files.
+`go.mod`
+```go
+replace <module-path> v<version> => <local-module-path>
+```
+
+**Download and install third party dependencies**
+```go
+go get <remote-url>
+```
+
 ### Chapter 2: Basic
 
-#### **Packages**
+#### Packages
 In golang, packages are used to categorize our program into logical units so that it is easy to maintain.
 Every go-file belongs to some package i.e., why we write `package <package-name>` at the top. Each go application
 must have `main` package so that it can compile.
 
 > Note: If a package is changed and recompiled, all the client programs that use this package must be recompiled too!
 
-#### **Import**
+#### Import
 A Go program is linked to different packages through the import keyword.
 
 **Syntax:**
@@ -53,12 +89,12 @@ import (
 import ("fmt"; "os")
 ```
 
-#### **Visibility**
+#### Visibility
 - An identifier can be variable, constant, function, type or struct field. We can declare identifier in lowercase or uppercase letters. 
 - If we declare identifier in lowercase letter, it will be visible within the package only. But if we declare package in uppercase letter, it will be visible within and outside the package which is also known as exported. 
 - The dot `.` Operator is used to access the identifier e.g. pack.Age where pack is the package name and Age is the identifier.
 
-#### **Data types**
+#### Data types
 
 | Type                                               | Default value |
 |----------------------------------------------------|---------------|
@@ -73,7 +109,7 @@ import ("fmt"; "os")
 
 **Note:** `rune` is equivalent to char
 
-#### **Declaring a variable**
+#### Declaring a variable
 
 ```go
 var number int
@@ -138,7 +174,7 @@ const x = a * b
 const y = x * p // This will give an error
 ```
 
-#### **If statement**
+#### If statement
 
 ```go
 if x > 0 && x < 10 {
@@ -164,7 +200,7 @@ if v := math.Pow(x, n); v < lim {
 ```
 > Note: v is only available in the `if` statement scope.
 
-#### **Switch statement**
+#### Switch statement
 Similar to switch case but `break` is implicit. So automatic fall-through is not default.
 We can use `fallthrough` keyword to execute all the cases which are below the matching one.
 
@@ -224,7 +260,7 @@ func describe(s Shape) {
 }
 ```
 
-#### **Loops**
+#### Loops
 `for` keyword is use to define loops in golang.
 
 **Syntax:**
@@ -855,3 +891,46 @@ m := map[<type-1>]<type-2>{
 - Get: `element = m[key]`
 - Delete: `delete(m, key)`
 - Check if element exists: `element, ok := m[key]`
+
+### Chapter - 9: Pointers
+- Pointer are nothing but just a reference to a value
+- Default value of a pointer is `nil`
+- Unlike C, Go does not support pointer arithmatic but we can use `unsafe` to create unsafe pointers.
+
+**Syntax:**
+```go
+var <variable-name> *<type>
+```
+
+**Example:**
+```go
+var x int = 5
+var y *int = &x // creating a pointer of type *int
+*y = 10         // de-referencing the pointer and changing the value at a specific address 
+```
+
+It is common as receiver of a function and we can directly call the same function using same object of the structure.
+Implicitly compiler will cast the type to a pointer.
+
+**Example:**
+```go
+type Circle struct {
+	x int
+	y int
+	radius int
+}
+
+func (c *Cirle) grow() {
+	*c.radius *= 2 
+}
+
+func main() {
+	c := Circle {
+		x: 1,
+		y: 2,
+		radius: 5,
+    }
+	c.grow()    // directly calling grow function, implicitly it will cast the type Circle to *Circle
+}
+}
+```

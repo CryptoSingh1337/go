@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func (e email) setMessage(newMessage string) {
+func (e *email) setMessage(newMessage string) {
 	e.message = newMessage
 }
 
