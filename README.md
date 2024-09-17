@@ -2,6 +2,7 @@
 
 ### Resources:
 - [https://go.dev/doc/effective_go](https://go.dev/doc/effective_go)
+- [https://learngolangonline.com/posts/golang-roadmap](https://learngolangonline.com/posts/golang-roadmap)
 
 ### Chapter 1: Go runtime
 Go runtime consists of several key components, including the scheduler, garbage collector, memory allocator, and stack management.
