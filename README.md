@@ -935,3 +935,85 @@ func main() {
 }
 }
 ```
+
+### Chapter - 10: Concurrency
+Golang has the concept of *goroutine* and *channel* using which we can perform operations concurrently.
+
+#### Go routine
+- Goroutines are lightweight, much lighter than a thread.
+- Goroutines run in the same address space, so access to shared memory must be synchronized.
+- A goroutine is implemented as a function or method. It is called (invoked) with the 'go' keyword.
+- When the goroutine finishes, nothing is returned to the caller function.
+
+For synchronization (to avoid race condition), there are multiple options like mutex, atomic variable, channels, wait group etc.
+
+#### Channels
+Channels are typed, thread-safe queue. Channels allow different goroutines to communicate with each other.
+
+**Syntax**
+```go
+ch := make(chan int)
+```
+
+**Send date to a channel**
+`<-` operator is called *channel operator*. Data flows in the direction of the arrow. This operator will block until another
+goroutine is ready to receive the value.
+
+**Example:**
+```go
+ch <- 10
+```
+
+**Receive data from a channel**
+This is also blocking it will wait until another value is not present in the channel.
+```go
+v := <-ch
+```
+
+##### Channels used for tokens
+Empty structs are often used as `tokens` in Go program. A token is a unary value, we don't care what is passed through
+channel. We can when and if it is passed.
+
+We can block and wait until something is sent on a channel using the following syntax:
+```go
+<-ch
+```
+This will block until it pops a single item off the channel, then continue, discarding the item.
+
+##### Buffered channels
+We can create channel of a specific length so that it will be cleared off / processed when the channel is full.
+
+**Example:**
+```go
+ch := make(chan int, 100)
+```
+> Sends to a buffered channel block only when the buffer is full. Receives block when the buffer is empty.
+
+##### Close a channel
+Channels can be explicitly closed by the sender.
+
+```go
+ch := make(chan int)
+
+close(ch)
+```
+
+**Check if channel is closed**
+```go
+v, ok := <-ch
+```
+`false` if channel is empty and closed. If its a buffered channel then `ok` will be `false` only when channel is closed and empty.
+
+**Listen to multiple channels**
+Using `switch` we can listen to multiple channels in a single goroutine. The first channel with a value ready to be received will
+fire and its body will execute. If multiple channels are ready at the same time one is chosen randomly.
+
+**Example:**
+```go
+select {
+    case i, ok := <-chInts:
+		fmt.Println(i)
+    case s, ok := <- chStrings:
+		fmt.Println(s)	
+}
+```

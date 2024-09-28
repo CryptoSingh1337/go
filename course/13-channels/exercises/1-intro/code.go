@@ -6,7 +6,7 @@ import (
 )
 
 func sendEmail(message string) {
-	func() {
+	go func() {
 		time.Sleep(time.Millisecond * 250)
 		fmt.Printf("Email received: '%s'\n", message)
 	}()

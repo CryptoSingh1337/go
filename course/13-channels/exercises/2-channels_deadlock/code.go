@@ -8,13 +8,15 @@ import (
 func filterOldEmails(emails []email) {
 	isOldChan := make(chan bool)
 
-	for _, e := range emails {
-		if e.date.Before(time.Date(2020, 0, 0, 0, 0, 0, 0, time.UTC)) {
-			isOldChan <- true
-			continue
+	go func() {
+		for _, e := range emails {
+			if e.date.Before(time.Date(2020, 0, 0, 0, 0, 0, 0, time.UTC)) {
+				isOldChan <- true
+				continue
+			}
+			isOldChan <- false
 		}
-		isOldChan <- false
-	}
+	}()
 
 	isOld := <-isOldChan
 	fmt.Println("email 1 is old:", isOld)
